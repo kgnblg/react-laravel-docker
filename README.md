@@ -28,3 +28,8 @@ After the first build, please use the following command for preventing unnecessa
 ```
 docker-compose up --d
 ```
+
+### To-Do
+
+1. Webpack and Babel configuration for Frontend part
+2. DB Enviroment variables and migration configuration for Laravel
