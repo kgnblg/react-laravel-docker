@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+
+    frontend:
+      image: kgnblg/app-frontend
+      build: ./app-frontend 
+      ports:
+        - "80:80"
+      networks:
+        - app-network
+
+    backend:
+      image: kgnblg/app-backend
+      build: ./app-backend 
+      ports:
+        - "8000:8000"
+      networks:
+        - app-network
+        - db
+
+    appdb:
+      image: mysql:5.7
+      volumes:
+        - ./initdb:/docker-entrypoint-initdb.d
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=db
+        - MYSQL_USER=kgnblg
+        - MYSQL_PASSWORD=root
+      ports:
+        - 3306:3306
+      networks:
+        - db
+
+    phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      environment:
+        - PMA_HOST=appdb
+        - PMA_PORT=3306
+      depends_on:
+        - appdb
+      ports:
+        - 8443:80
+      networks:
+        - db
+
+networks:
+  app-network:
+  db:
