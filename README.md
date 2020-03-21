@@ -14,3 +14,17 @@ This container created for backend support. The aim is serving different API end
 ## MySQL and PhpMyAdmin
 
 MySQL Version: 5.7.29
+
+## Using the Project
+
+Execute the following command and the Docker will build the images for containers;
+
+```
+docker-compose up --build
+```
+
+After the first build, please use the following command for preventing unnecessary builds;
+
+```
+docker-compose up --d
+```
