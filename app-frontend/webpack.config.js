@@ -28,8 +28,15 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.svg$/,
-        loader: 'svg-loader',
+        test: /\.(png|jp(e*)g|svg|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'images/[hash]-[name].[ext]',
+            },
+          },
+        ],
       },
     ],
   },
@@ -57,8 +64,19 @@ module.exports = {
   context: __dirname,
   target: "web",
   stats: "errors-only",
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 80
+  },
+  watchOptions: {
+    aggregateTimeout: 300,
+    poll: 1000
+  },
   plugins: [
     new webpack.NamedModulesPlugin(),
-    new HtmlWebPackPlugin()
+    new HtmlWebPackPlugin({
+      template: './src/index.html',
+    })
   ]
 }
