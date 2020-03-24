@@ -5,6 +5,7 @@ React, Laravel, MySQL and PhpMyAdmin with Docker Compose.
 This container contains NodeJS and React enviroment with the following versions;
 - NodeJS 13.10.1 Alpine
 - React 16.13.0
+- Webpack 4
 
 ## Backend Container
 This container created for backend support. The aim is serving different API endpoints via Laravel. It contains the following software versions;
