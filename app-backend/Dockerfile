@@ -5,7 +5,7 @@ RUN apt-get update \
 	&& pecl install mcrypt-1.0.1 \
 	&& docker-php-ext-enable mcrypt
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN docker-php-ext-install pdo mbstring
+RUN docker-php-ext-install pdo mbstring pdo_mysql
 WORKDIR /app
 COPY . /app
 RUN composer install
