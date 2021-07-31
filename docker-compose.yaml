@@ -2,16 +2,25 @@ version: '3.7'
 services:
 
     frontend:
-      image: kgnblg/app-frontend
-      build: ./app-frontend 
+      build:
+        context: ./app-frontend 
       ports:
         - "80:80"
       networks:
         - app-network
 
     backend:
-      image: kgnblg/app-backend
-      build: ./app-backend 
+      build:
+        context: ./app-backend/
+      restart: unless-stopped
+      environment:
+        MYSQL_DATABASE: ${DB_DATABASE}
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        MYSQL_PASSWORD: ${DB_PASSWORD}
+        MYSQL_USER: ${DB_USERNAME}
+      working_dir: /var/www
+      volumes:
+        - ./app-backend:/var/www
       ports:
         - "8000:8000"
       networks:
@@ -20,13 +29,14 @@ services:
 
     appdb:
       image: mysql:5.7
+      restart: unless-stopped
+      environment:
+        MYSQL_DATABASE: ${DB_DATABASE}
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        MYSQL_PASSWORD: ${DB_PASSWORD}
+        MYSQL_USER: ${DB_USERNAME}
       volumes:
         - ./initdb:/docker-entrypoint-initdb.d
-      environment:
-        - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_DATABASE=db
-        - MYSQL_USER=kgnblg
-        - MYSQL_PASSWORD=root
       ports:
         - 3306:3306
       networks:
@@ -34,9 +44,10 @@ services:
 
     phpmyadmin:
       image: phpmyadmin/phpmyadmin
+      restart: unless-stopped
       environment:
-        - PMA_HOST=appdb
-        - PMA_PORT=3306
+        PMA_HOST: appdb
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       depends_on:
         - appdb
       ports:
@@ -46,4 +57,5 @@ services:
 
 networks:
   app-network:
+    driver: bridge
   db:
