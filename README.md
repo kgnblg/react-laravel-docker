@@ -41,3 +41,7 @@ Feel free to contribute this project.
 - **[Backend]** Composer & NPM update and audits
 - **[Backend]** Docker multistage build
 - **[Frontend]** NPM update and audits
+
+### Infrastructure model
+
+![Infrastructure model](.infragenie/infrastructure_model.png)
